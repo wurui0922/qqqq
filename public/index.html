@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/bootstrap/dist/css/bootstrap.min.css">
+    <script src="/jquery/dist/jquery.min.js"></script>
+    <script src="/art-template/lib/template-web.js"></script>
+    <script src="/axios/dist/axios.min.js"></script>
+    <title>Document</title>
+    <style>
+        .container {
+            width: 88%;
+            margin:0 auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>王者荣耀
+            <small>
+                英雄管理器
+            </small>
+        </h1>
+        <div>
+            <a href="#" class="btn btn-success pull-right">添加英雄</a>
+        </div>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>编号</th>
+                    <th>名称</th>
+                    <th>性别</th>
+                    <th>创建时间</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+            </tbody>
+        </table>
+    </div>
+   
+    
+    <script>
+        // $.ajax({
+        //     url:'http://127.0.0.1:5000/api/getheros',
+        //     type:'get',
+        //     success:function (result) {
+        //         console.log(result);
+        //         var html = template('tmpl',result);
+        //         $('tbody').html(html);
+        //     }
+        // })
+        axios('http://127.0.0.1:5000/api/getheros').then(function (result) {
+            console.log(result);
+            if(result.status == 200 && result.data.err_code == 0) {
+                var html = template('tmpl',result.data);
+                $('tbody').html(html);
+            }
+        })
+    </script>
+    <script id="tmpl" type="text/template">
+        {{ each message }} 
+        <tr>
+            <td><%= $value.id%></td>
+            <td><%= $value.username%></td>
+            <td><%= $value.gender%></td>
+            <td><%= $value.ctime%></td>
+            <td>
+                <a href="add.html?id={{ $value.id }}" class="btn btn-sm btn-info">查看</a>
+                <a href="#"class="btn btn-sm btn-warning">编辑</a>
+                <a href="#"class="btn btn-sm btn-danger">删除</a>
+            </td>
+        </tr>
+        {{/each}}
+    </script>
+
+</body>
+</html>

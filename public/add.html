@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/bootstrap/dist/css/bootstrap.min.css">
+    <script src="/jquery/dist/jquery.min.js"></script>
+    <script src="/art-template/lib/template-web.js"></script>
+    <script src="/axios/dist/axios.min.js"></script>    
+    <title>添加数据</title>
+    <style>
+        .container {
+            width: 88%;
+            margin:0 auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>查看英雄</h1>
+        <div class="data">
+
+        </div>
+    </div>
+    
+    <script>
+        let search = new URLSearchParams(location.search);
+        let id = search.get('id');
+        axios('http://localhost:5000/api/getdata?id='+id).then(result => {
+            console.log(result);
+            let html = template('tmpl',result.data.message[0]);
+            $('.data').html(html);
+        })    
+    </script>
+
+    <script type="text/template" id="tmpl">
+        <p><strong>id：{{ id }}</strong></p>
+        <p><strong>英雄名称：{{ username }}</strong></p>
+        <p><strong>性别：{{ gender }}</strong></p>
+        <p><strong>创建时间：{{ ctime }}</strong></p>
+    </script>
+</body>
+</html>
